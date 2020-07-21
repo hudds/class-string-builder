@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.lang.model.element.Modifier;
+
 public final class StringBuilderWithReflection {
 
 	/**
@@ -29,13 +31,12 @@ public final class StringBuilderWithReflection {
 				stringBuilder.append("=");
 				Object fieldValue = method.invoke(object, new Object[] {});
 				stringBuilder.append(fieldValue);
-				if (i < declaredFields.length - 1) {
-					stringBuilder.append(", ");
-				}
+				stringBuilder.append(", ");
 			} catch (SecurityException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
 				continue;
 			}
 		}
+		stringBuilder.delete(stringBuilder.length()-2, stringBuilder.length());
 		stringBuilder.append("}");
 		return stringBuilder.toString();
 
